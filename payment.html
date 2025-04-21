@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Төлбөрийн хуудас: Dickies Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .secure-icon {
+            display: flex;
+            align-items: center;
+        }
+        
+        .secure-icon svg {
+            margin-right: 10px;
+        }
+        
+        .logo {
+            text-align: center;
+        }
+        
+        .contact {
+            text-align: right;
+        }
+        
+        .main-content {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .checkout-form {
+            flex: 2;
+            padding-right: 30px;
+        }
+        
+        .order-summary {
+            flex: 1;
+            border-left: 1px solid #e0e0e0;
+            padding-left: 30px;
+        }
+        
+        .welcome-banner {
+            background-color: #f2ead7;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background-color: #333;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .step-completed {
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            border: 2px solid #333;
+            color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .error-message {
+            color: #ff0000;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .shipping-methods {
+            margin-top: 30px;
+        }
+        
+        .method-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+        
+        .method-option:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .order-summary h2 {
+            margin-top: 0;
+        }
+        
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .total-line {
+            font-weight: bold;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        
+        .button-container {
+            margin-top: 30px;
+        }
+        
+        .continue-button {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .continue-button:hover {
+            background-color: #333;
+        }
+        
+        .edit-link {
+            color: #d40029;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .edit-link:hover {
+            text-decoration: underline;
+        }
+        
+        .payment-methods {
+            margin-top: 20px;
+        }
+        
+        .payment-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+        
+        .shipping-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .shipping-address, .shipping-method {
+            flex: 1;
+        }
+        
+        .dropdowns {
+            margin: 20px 0;
+        }
+        
+        .dropdown {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .dropdown-icon {
+            margin-right: 10px;
+        }
+        
+        /* Second page specific styles */
+        .payment-page .step-number {
+            background-color: #333;
+        }
+        
+        .payment-page .step-completed .checkmark {
+            color: #333;
+        }
+        
+        .top-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .order-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .item-image {
+            margin-right: 20px;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-price {
+            font-weight: bold;
+        }
+
+        .review-items {
+            margin: 30px 0;
+        }
+
+        .payment-info {
+            margin-bottom: 30px;
+        }
+
+        .terms {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .checkout-form {
+                padding-right: 0;
+            }
+            
+            .order-summary {
+                border-left: none;
+                padding-left: 0;
+                margin-top: 30px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="secure-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" fill="#333"/>
+                </svg>
+                <span>Secure Checkout</span>
+            </div>
+            <div class="logo">
+                <div class="logo">
+                    <img src="/imgs/dickiesLogo-removebg-preview.png" alt="Dickies logo" style="max-height: 40px;">
+                </div>
+            </div>
+            <div class="contact">
+                <p>1-800-Dickies</p>
+            </div>
+        </div>
+
+        <div id="shipping-page">
+            <div class="welcome-banner">
+                <p>Welcome Back, FEDoUP!</p>
+            </div>
+            
+            <div class="main-content">
+                <div class="checkout-form">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h2>Shipping</h2>
+                    </div>
+                    
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="First Name *" required>
+                                <div class="error-message">This field is required, please add your First Name.</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Last Name *" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <select class="form-control" required>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="MX">Mexico</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Address Line 1 *" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Address Line 2 (optional)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="City *" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Email *" value="rampage2247@gmail.com" required>
+                            <small>We will send an order receipt to this email</small>
+                        </div>
+                        
+                        <div class="shipping-methods">
+                            <h3>Shipping Method</h3>
+                            
+                            <div class="method-option">
+                                <div>
+                                    <input type="radio" id="standard" name="shipping" checked>
+                                    <label for="standard">Standard Shipping:</label>
+                                </div>
+                                <div>
+                                    <span>Free</span>
+                                    <span>$6.99</span>
+                                </div>
+                            </div>
+                            
+                            <div class="method-option">
+                                <div>
+                                    <input type="radio" id="usps" name="shipping">
+                                    <label for="usps">USPS:</label>
+                                </div>
+                                <div>
+                                    <span>Free</span>
+                                    <span>$6.99</span>
+                                </div>
+                            </div>
+                            
+                            <div class="method-option">
+                                <div>
+                                    <input type="radio" id="fedex3" name="shipping">
+                                    <label for="fedex3">FedEx 3-Day:</label>
+                                </div>
+                                <div>
+                                    <span>$12.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="method-option">
+                                <div>
+                                    <input type="radio" id="ups3" name="shipping">
+                                    <label for="ups3">UPS 3-Day:</label>
+                                </div>
+                                <div>
+                                    <span>$12.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="method-option">
+                                <div>
+                                    <input type="radio" id="fedex2" name="shipping">
+                                    <label for="fedex2">FedEx 2-Day:</label>
+                                </div>
+                                <div>
+                                    <span>$20.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="method-option">
+                                <div>
+                                    <input type="radio" id="ups2" name="shipping">
+                                    <label for="ups2">UPS 2-Day:</label>
+                                </div>
+                                <div>
+                                    <span>$20.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="button-container">
+                            <button type="button" class="continue-button" onclick="showPaymentPage()">Continue to Payment</button>
+                        </div>
+                    </form>
+                    
+                    <div class="dropdowns">
+                        <div class="dropdown">
+                            <div class="step-number">2</div>
+                            <span>Payment</span>
+                            <span class="lock-icon">🔒</span>
+                        </div>
+                        <div class="dropdown">
+                            <div class="step-number">3</div>
+                            <span>Review</span>
+                            <span class="lock-icon">🔒</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-dropdown">
+                        <div class="summary-header">
+                            <span>2 Items</span>
+                            <a href="#" class="edit-link">Edit Cart</a>
+                        </div>
+                    </div>
+                    
+                    <div class="promo-code">
+                        <a href="#" class="edit-link">Apply Promo Code +</a>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <span>$89.99</span>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>Standard Shipping</span>
+                        <span>$6.99</span>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>Shipping Discount</span>
+                        <span>-$6.99</span>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>Sales Tax</span>
+                        <span>TBD</span>
+                    </div>
+                    
+                    <div class="summary-line total-line">
+                        <span>Total</span>
+                        <span>$89.99</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="payment-page" style="display: none;">
+            <div class="welcome-banner">
+                <p>Welcome Back, FEDoUP!</p>
+            </div>
+            
+            <div class="main-content payment-page">
+                <div class="checkout-form">
+                    <div class="step">
+                        <div class="step-completed">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h2>Shipping</h2>
+                        <a href="#" class="edit-link" style="margin-left: 15px;" onclick="showShippingPage()">Edit Shipment</a>
+                    </div>
+                    
+                    <div class="shipping-info">
+                        <div class="shipping-address">
+                            <p><strong>Shipping Address</strong></p>
+                            <p>Enkhjin ENKHBAYAR</p>
+                            <p>Unum #7201</p>
+                            <p>Ulaanbaatar, Mongoli AR 13100</p>
+                            <p>United States</p>
+                            <p>+97685546276</p>
+                            <p>rampage2247@gmail.com</p>
+                        </div>
+                        
+                        <div class="shipping-method">
+                            <p><strong>Shipping Method</strong></p>
+                            <p>FedEx 2-Day</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h2>Payment</h2>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <h3>Payment Method</h3>
+                        
+                        <div class="payment-option">
+                            <div>
+                                <input type="radio" id="credit-card" name="payment" checked>
+                                <label for="credit-card">Credit Card</label>
+                            </div>
+                            <div>
+                                <svg width="30" height="20" viewBox="0 0 30 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="30" height="20" rx="2" fill="#1A1F71"/>
+                                    <rect x="11" y="7" width="8" height="6" fill="white"/>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option">
+                            <div>
+                                <input type="radio" id="paypal" name="payment">
+                                <label for="paypal">PayPal</label>
+                            </div>
+                            <div>
+                                <svg width="60" height="20" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 4C6.13401 4 3 7.13401 3 11C3 14.866 6.13401 18 10 18H50C53.866 18 57 14.866 57 11C57 7.13401 53.866 4 50 4H10Z" fill="#ffffff"/>
+                                    <path d="M16 8H20C21.1 8 22 8.9 22 10C22 11.1 21.1 12 20 12H18V14H16V8Z" fill="#009cde"/>
+                                    <path d="M28 8H24V14H26V12H28C29.1 12 30 11.1 30 10C30 8.9 29.1 8 28 8Z" fill="#003087"/>
+                                    <path d="M36 8H32V14H34V12H36C37.1 12 38 11.1 38 10C38 8.9 37.1 8 36 8Z" fill="#009cde"/>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option">
+                            <div>
+                                <input type="radio" id="buy-now-pay-later" name="payment">
+                                <label for="buy-now-pay-later">Buy now, pay later</label>
+                            </div>
+                            <div>
+                                <span class="klarna-badge" style="background-color: #ffb3c7; color: #000; padding: 2px 8px; border-radius: 3px; font-size: 12px;">Klarna</span>
+                            </div>
+                        </div>
+                        
+                        <div class="gift-certificate">
+                            <a href="#" class="edit-link">Pay with a Gift Certificate +</a>
+                        </div>
+                    </div>
+                    
+                    <div class="button-container">
+                        <button type="button" class="continue-button" onclick="showReviewPage()">Review Your Order</button>
+                    </div>
+                    
+                    <div class="dropdowns">
+                        <div class="dropdown">
+                            <div class="step-number">3</div>
+                            <span>Review</span>
+                            <span class="lock-icon">🔒</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-dropdown">
+                        <div class="summary-header">
+                            <span>2 Items</span>
+                            <a href="#" class="edit-link">Edit Cart</a>
+                        </div>
+                    </div>
+                    
+                    <div class="promo-code">
+                        <a href="#" class="edit-link">Apply Promo Code +</a>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <span>$89.99</span>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>FedEx 2-Day</span>
+                        <span>$20.00</span>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>Sales Tax</span>
+                        <span>$0.00</span>
+                    </div>
+                    
+                    <div class="summary-line total-line">
+                        <span>Total</span>
+                        <span>$109.99</span>
+                    </div>
+                    
+                    <div class="arrival-info">
+                        <p class="estimated-arrival">Estimated arrival: April 30</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="review-page" style="display: none;">
+            <div class="welcome-banner">
+                <p>Welcome Back, FEDoUP!</p>
+            </div>
+            
+            <div class="main-content review-page">
+                <div class="checkout-form">
+                    <div class="step">
+                        <div class="step-completed">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h2>Shipping</h2>
+                        <a href="#" class="edit-link" style="margin-left: 15px;" onclick="showShippingPage()">Edit Shipment</a>
+                    </div>
+                    
+                    <div class="shipping-info">
+                        <div class="shipping-address">
+                            <p><strong>Shipping Address</strong></p>
+                            <p>Enkhjin ENKHBAYAR</p>
+                            <p>Unum #7201</p>
+                            <p>Ulaanbaatar, Mongoli AR 13100</p>
+                            <p>United States</p>
+                            <p>+97685546276</p>
+                            <p>rampage2247@gmail.com</p>
+                        </div>
+                        
+                        <div class="shipping-method">
+                            <p><strong>Shipping Method</strong></p>
+                            <p>FedEx 2-Day</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-completed">
+                            <span class="checkmark">✓</span>
+                        </div>
+                        <h2>Payment</h2>
+                        <a href="#" class="edit-link" style="margin-left: 15px;" onclick="showPaymentPage()">Edit Payment</a>
+                    </div>
+                    
+                    <div class="payment-info">
+                        <p><strong>Payment Method</strong></p>
+                        <p>Credit Card</p>
+                        <p>**** **** **** 1234</p>
+                        <p>Exp: 12/25</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h2>Review</h2>
+                    </div>
+                    
+                    <div class="review-items">
+                        <h3>Order Items</h3>
+                        
+                        <div class="order-item">
+                            <div class="item-image">
+                                <div style="width: 80px; height: 80px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                                    <span>Item 1</span>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <h4>Dickies Work Shirt</h4>
+                                <p>Color: Navy Blue</p>
+                                <p>Size: L</p>
+                                <p>Quantity: 1</p>
+                                <p class="item-price">$49.99</p>
+                            </div>
+                        </div>
+                        
+                        <div class="order-item">
+                            <div class="item-image">
+                                <div style="width: 80px; height: 80px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                                    <span>Item 2</span>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <h4>Dickies Work Pants</h4>
+                                <p>Color: Black</p>
+                                <p>Size: 34x32</p>
+                                <p>Quantity: 1</p>
+                                <p class="item-price">$40.00</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-container">
+                        <button type="button" class="continue-button">Place Order</button>
+                    </div>
+                    
+                    <div class="terms">
+                        <p>By placing your order, you agree to Dickies' Terms of Service and Privacy Policy.</p>
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-dropdown">
+                        <div class="summary-header">
+                            <span>2 Items</span>
+                            <a href="#" class="edit-link">Edit Cart</a>
+                        </div>
+                    </div>
+                    
+                    <div class="promo-code">
+                        <a href="#" class="edit-link">Apply Promo Code +</a>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <span>$89.99</span>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>FedEx 2-Day</span>
+                        <span>$20.00</span>
+                    </div>
+                    
+                    <div class="summary-line">
+                        <span>Sales Tax</span>
+                        <span>$0.00</span>
+                    </div>
+                    
+                    <div class="summary-line total-line">
+                        <span>Total</span>
+                        <span>$109.99</span>
+                    </div>
+                    
+                    <div class="arrival-info">
+                        <p class="estimated-arrival">Estimated arrival: April 30</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="#" class="top-button">TOP</a>
+    
+    <script>
+        function showPaymentPage() {
+            document.getElementById('shipping-page').style.display = 'none';
+            document.getElementById('payment-page').style.display = 'block';
+            document.getElementById('review-page').style.display = 'none';
+        }
+        
+        function showShippingPage() {
+            document.getElementById('payment-page').style.display = 'none';
+            document.getElementById('shipping-page').style.display = 'block';
+            document.getElementById('review-page').style.display = 'none';
+        }
+        
+        function showReviewPage() {
+            document.getElementById('shipping-page').style.display = 'none';
+            document.getElementById('payment-page').style.display = 'none';
+            document.getElementById('review-page').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
